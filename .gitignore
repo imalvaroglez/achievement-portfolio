@@ -1,4 +1,4 @@
-# Python
+# Python runtime
 __pycache__/
 *.py[cod]
 *$py.class
@@ -22,30 +22,20 @@ share/python-wheels/
 *.egg
 MANIFEST
 
-# Virtual environments
+# Virtual environments (local only, not in repo)
 venv/
 ENV/
 env/
 .venv
 
-# IDE
+# IDE settings (local only)
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
-.DS_Store
 
-# Logs
-*.log
-logs/
-
-# Cache
-.cache/
-*.cache
-
-# Environment
-.env
+# Local environment files (secrets)
 .env.local
 .env.*.local
 
