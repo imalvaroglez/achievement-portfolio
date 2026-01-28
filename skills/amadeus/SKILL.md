@@ -63,6 +63,8 @@ python scripts/destinations/points_of_interest.py --lat 48.8566 --lon 2.3522 --r
 python scripts/destinations/points_of_interest.py --lat 40.7128 --lon -74.0060 --category RESTAURANT
 ```
 
+**Note:** POI API requires production credentials (not available in test environment)
+
 ## Configuration
 
 Required environment variables:
