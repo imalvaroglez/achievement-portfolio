@@ -72,6 +72,21 @@ Required environment variables:
 - `AMADEUS_API_SECRET`: Your Amadeus API secret
 - `AMADEUS_ENV`: Environment (`test` or `production`, default: `test`)
 
+### Price Analysis (Production Only)
+
+```bash
+# Analyze prices for a route
+python scripts/flights/analyze_prices.py --from BCN --to JFK --date 2026-03-15
+
+# Find cheapest travel dates
+python scripts/flights/find_cheapest_dates.py --from BCN --to JFK --date 2026-03-15 --span 30
+
+# Find cheapest destinations from origin
+python scripts/flights/find_cheap_destinations.py --from BCN --max 20
+```
+
+**Note:** Price analysis endpoints require production credentials (not available in test)
+
 ## Output Format
 
 All scripts output JSON for easy parsing:
