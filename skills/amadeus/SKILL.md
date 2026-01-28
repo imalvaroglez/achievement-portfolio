@@ -121,7 +121,24 @@ On error:
 - Production: Based on your subscription tier
 - Caching enabled (15 min TTL) to reduce API calls
 
+## Notion Integration
+
+Automatically generate proposal pages in Notion with research data:
+
+```bash
+python scripts/combined_research.py \
+  --from BCN \
+  --to JFK \
+  --checkin 2026-03-15 \
+  --checkout 2026-03-20 \
+  --guest-count 2 \
+  --notion-parent "Travel Proposals"
+```
+
+See [NOTION_SETUP.md](NOTION_SETUP.md) for complete setup instructions.
+
 ## References
 
 - [Amadeus API Reference](https://developers.amadeus.com/self-service/apis-docs)
 - [IATA Airport Codes](references/iata-codes.md)
+- [Notion Integration Setup](NOTION_SETUP.md)
