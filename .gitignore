@@ -1,0 +1,44 @@
+# Python runtime
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments (local only, not in repo)
+venv/
+ENV/
+env/
+.venv
+
+# IDE settings (local only)
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Local environment files (secrets)
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
