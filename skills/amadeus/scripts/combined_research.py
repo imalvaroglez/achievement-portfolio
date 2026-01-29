@@ -201,7 +201,8 @@ Examples:
     parser.add_argument('--guest-count', '-g', type=int, default=1, help='Number of guests')
     
     # Notion parameters
-    parser.add_argument('--notion-parent', help='Notion page/database name or ID to create proposal in')
+    parser.add_argument('--notion-parent', help='Notion page/database name to create proposal in')
+    parser.add_argument('--notion-parent-id', help='Notion database ID (use this if search fails)')
     parser.add_argument('--no-notion', action='store_true', help='Skip Notion integration, output JSON only')
     
     # Output
@@ -223,23 +224,33 @@ Examples:
         )
         
         # Notion integration
-        if not args.no_notion and args.notion_parent:
+        if not args.no_notion and (args.notion_parent or args.notion_parent_id):
             print(f"Creating Notion page...", file=sys.stderr)
             notion = NotionHelper()
             
-            # Search for parent (page or database)
-            results = notion.search(args.notion_parent)
-            if results:
-                parent = results[0]
-                parent_id = parent.get('id')
-                is_database = parent.get('object') in ('database', 'data_source')
-                
+            parent_id = None
+            is_database = True
+            
+            # Use provided ID directly if given
+            if args.notion_parent_id:
+                parent_id = args.notion_parent_id
+                is_database = True
+                print(f"Using provided database ID: {parent_id}", file=sys.stderr)
+            elif args.notion_parent:
+                # Search for parent (page or database)
+                results = notion.search(args.notion_parent)
+                if results:
+                    parent = results[0]
+                    parent_id = parent.get('id')
+                    is_database = parent.get('object') in ('database', 'data_source')
+                else:
+                    print(f"⚠ Notion parent not found: {args.notion_parent}", file=sys.stderr)
+            
+            if parent_id:
                 page_id = create_proposal_page(notion, parent_id, research, is_database)
                 research['notion_page_id'] = page_id
                 research['notion_url'] = f"https://notion.so/{page_id.replace('-', '')}"
                 print(f"✓ Page created: {research['notion_url']}", file=sys.stderr)
-            else:
-                print(f"⚠ Notion parent not found: {args.notion_parent}", file=sys.stderr)
         
         # Output
         result = {
