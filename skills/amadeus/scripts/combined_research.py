@@ -227,12 +227,12 @@ Examples:
             print(f"Creating Notion page...", file=sys.stderr)
             notion = NotionHelper()
             
-            # Search for parent
-            results = notion.search(args.notion_parent, object_type='database')
+            # Search for parent (page or database)
+            results = notion.search(args.notion_parent)
             if results:
                 parent = results[0]
                 parent_id = parent.get('id')
-                is_database = parent.get('object') == 'data_source'
+                is_database = parent.get('object') in ('database', 'data_source')
                 
                 page_id = create_proposal_page(notion, parent_id, research, is_database)
                 research['notion_page_id'] = page_id
