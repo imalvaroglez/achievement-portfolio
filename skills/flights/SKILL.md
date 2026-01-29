@@ -1,11 +1,11 @@
 ---
 name: flights
-description: Search for flights using Google Flights data. Use when the user asks about flight prices, availability, or wants to find flights between airports. Handles one-way and round-trip searches with passenger and seat class options.
+description: Search for flights using Amadeus GDS data. Use when the user asks about flight prices, availability, or wants to find flights between airports. Handles one-way and round-trip searches with passenger and seat class options.
 ---
 
 # Flight Search
 
-Search Google Flights for prices and availability.
+Search flights via Amadeus API (GDS data — airline-grade pricing and availability).
 
 ## Quick Usage
 
@@ -25,64 +25,123 @@ source ~/.venvs/flights/bin/activate && python3 skills/flights/scripts/search_fl
 | `--trip` | No | `one-way` (default) or `round-trip` |
 | `--seat` | No | `economy` (default), `premium-economy`, `business`, `first` |
 | `--adults` | No | Number of adults (default: 1) |
-| `--children` | No | Number of children (default: 0) |
+| `--children` | No | Number of children 2-11 (default: 0) |
+| `--infants` | No | Number of infants <2 (default: 0) |
+| `--direct` | No | Direct/nonstop flights only |
+| `--currency` | No | Currency code (e.g., USD, MXN, EUR) |
 | `--limit` | No | Max results (default: 10) |
-| `--json` | No | Output as JSON |
+| `--json` | No | Output as structured JSON |
+| `--raw` | No | Output raw Amadeus API response |
 
 ## Examples
 
 **One-way economy:**
 ```bash
-python3 skills/flights/scripts/search_flights.py --from BCN --to LHR --date 2026-03-01
+python3 skills/flights/scripts/search_flights.py --from MEX --to CUN --date 2026-03-01
 ```
 
 **Round-trip business class:**
 ```bash
-python3 skills/flights/scripts/search_flights.py --from NYC --to TYO --date 2026-04-10 --return-date 2026-04-20 --trip round-trip --seat business
+python3 skills/flights/scripts/search_flights.py \
+  --from MEX --to NRT --date 2026-04-10 \
+  --return-date 2026-04-20 --trip round-trip --seat business
 ```
 
-**Family trip:**
+**Family trip with currency:**
 ```bash
-python3 skills/flights/scripts/search_flights.py --from LAX --to CDG --date 2026-06-15 --adults 2 --children 2
+python3 skills/flights/scripts/search_flights.py \
+  --from GDL --to CDG --date 2026-06-15 \
+  --adults 2 --children 2 --currency MXN
+```
+
+**Direct flights only, JSON output:**
+```bash
+python3 skills/flights/scripts/search_flights.py \
+  --from MEX --to LAX --date 2026-03-01 --direct --json
 ```
 
 ## Airport Codes
 
-Use standard IATA codes. Common examples:
-- NYC/JFK/LGA/EWR — New York area
-- LAX — Los Angeles
-- LHR — London Heathrow
-- CDG — Paris Charles de Gaulle
-- BCN — Barcelona
-- TYO/NRT/HND — Tokyo area
-- SFO — San Francisco
+Use standard IATA codes. For unknown codes, use the airport lookup:
+```bash
+source ~/.venvs/flights/bin/activate && python3 skills/amadeus/scripts/flights/find_airports.py "Guadalajara"
+```
 
-For unknown codes, search "IATA code [city name]".
+Common Mexican airports:
+- MEX — Mexico City (Benito Juárez)
+- GDL — Guadalajara
+- CUN — Cancún
+- MTY — Monterrey
+- SJD — San José del Cabo
+- PVR — Puerto Vallarta
 
-## Interpreting Results
+## Output Formats
 
-- **Price trend**: `low`, `typical`, or `high` — indicates if current prices are good
-- **⭐ BEST**: Google's recommended option (balance of price/duration/stops)
-- **Stops**: `Nonstop` or number of stops
+### Human-readable (default)
+Formatted terminal output with emoji, pricing, segments, and timing.
 
-## How It Works
+### JSON (`--json`)
+Structured JSON with full offer details:
+```json
+{
+  "success": true,
+  "search": { "origin": "MEX", "destination": "CUN", ... },
+  "results_count": 5,
+  "offers": [
+    {
+      "id": "1",
+      "price_total": 2450.00,
+      "price_per_person": 1225.00,
+      "currency": "MXN",
+      "cabin": "ECONOMY",
+      "itineraries": [
+        {
+          "direction": "outbound",
+          "duration": "2h 30m",
+          "stops": 0,
+          "stops_label": "Nonstop",
+          "airlines": ["Aeromexico"],
+          "segments": [...]
+        }
+      ]
+    }
+  ],
+  "meta": { "source": "amadeus", "environment": "test", ... }
+}
+```
 
-The script has a two-tier approach:
-1. **Primary:** `fast-flights` library (faster, cleaner parsing)
-2. **Fallback:** Direct web fetch + custom parsing (more reliable for edge cases)
+### Raw (`--raw`)
+Unprocessed Amadeus API response — useful for debugging.
 
-Use `--method library` or `--method fetch` to force a specific method. Default is `auto`.
+## Configuration
 
-## Limitations
+Required environment variables (configured in gateway):
+- `AMADEUS_API_KEY` — Amadeus API key
+- `AMADEUS_API_SECRET` — Amadeus API secret
+- `AMADEUS_ENV` — `test` or `production` (default: `test`)
 
-- Scrapes Google Flights (not an official API) — may occasionally change
-- EU region may have consent page issues (fallback usually handles this)
-- Avoid rapid repeated searches (be reasonable)
+## Architecture
 
-## Troubleshooting
+This skill is a CLI wrapper around the shared Amadeus client library:
 
-If searches fail:
-1. Check airport codes are valid IATA codes
-2. Ensure date is in the future and format is YYYY-MM-DD
-3. Try `--method fetch` to force the fallback parser
-4. Try again — transient failures happen with scraping
+```
+skills/flights/scripts/search_flights.py
+  └── skills/amadeus/lib/client.py (AmadeusClient)
+        ├── skills/amadeus/lib/auth.py (OAuth 2.0)
+        └── skills/amadeus/lib/cache.py (TTL cache)
+```
+
+## Related Tools
+
+For advanced searches, use the Amadeus skill directly:
+- **Price analysis:** `skills/amadeus/scripts/flights/analyze_prices.py`
+- **Cheapest dates:** `skills/amadeus/scripts/flights/find_cheapest_dates.py`
+- **Cheap destinations:** `skills/amadeus/scripts/flights/find_cheap_destinations.py`
+- **Hotels:** `skills/amadeus/scripts/hotels/search_hotels.py`
+- **Combined research:** `skills/amadeus/scripts/combined_research.py`
+
+## Rate Limits
+
+- Test environment: 10 requests/second
+- Production: Based on subscription tier
+- Caching enabled (15 min TTL) to reduce API calls
