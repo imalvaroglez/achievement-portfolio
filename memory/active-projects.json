@@ -1,0 +1,46 @@
+{
+  "lastUpdate": "2026-01-29T15:37:00Z",
+  "projects": [
+    {
+      "id": "mojo-proactivity-upgrade",
+      "name": "Mr. Mojo Risin Proactivity Enhancement",
+      "status": "in-progress",
+      "priority": "high",
+      "owner": "Mr. Mojo Risin",
+      "description": "Transform from reactive assistant to proactive autonomous employee",
+      "nextSteps": [
+        "Finalize configuration file updates",
+        "Create initial memory structures",
+        "Test proactive behaviors",
+        "Deploy and monitor"
+      ],
+      "blockers": [],
+      "startDate": "2026-01-29",
+      "notes": "Álv wants proactive behavior similar to clawdbot example - autonomous work, anticipate needs, build without waiting for commands"
+    }
+  ],
+  "ideas": [
+    {
+      "title": "Flight price monitoring automation",
+      "value": "Proactive deal identification for Tailor Made clients",
+      "effort": "medium",
+      "priority": "high",
+      "notes": "Auto-monitor popular routes, alert on price drops, identify arbitrage opportunities"
+    },
+    {
+      "title": "Competitor intelligence dashboard",
+      "value": "Stay ahead of market positioning",
+      "effort": "medium",
+      "priority": "medium",
+      "notes": "Track competitor pricing, offerings, marketing tactics"
+    },
+    {
+      "title": "Client inquiry auto-responder",
+      "value": "Faster response times, better conversion",
+      "effort": "low",
+      "priority": "medium",
+      "notes": "Template responses for common inquiries, escalate complex ones"
+    }
+  ],
+  "backlog": []
+}
