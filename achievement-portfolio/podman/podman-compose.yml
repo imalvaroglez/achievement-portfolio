@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      containerfile: Containerfile
+    container_name: achievement-portfolio-backend
+    ports:
+      - "3000:3000"
+    volumes:
+      - achievement-data:/app/data
+      - achievement-uploads:/app/uploads
+    environment:
+      - DATABASE_PATH=/app/data/portfolio.db
+      - PORT=3000
+      - NODE_ENV=production
+      - JWT_SECRET=${JWT_SECRET:-default-secret-change-me-in-production}
+      - ADMIN_USERNAME=${ADMIN_USERNAME:-admin}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-default-password}
+      - FRONTEND_URL=http://localhost:5173
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/api/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+    labels:
+      - "com.achievement-portfolio.description=Backend API"
+      - "com.achievement-portfolio.managed=true"
+
+  frontend:
+    build:
+      context: ./frontend
+      containerfile: Containerfile
+    container_name: achievement-portfolio-frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+    environment:
+      - VITE_API_URL=http://localhost:3000
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:80/"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+    labels:
+      - "com.achievement-portfolio.description=Frontend UI"
+      - "com.achievement-portfolio.managed=true"
+
+volumes:
+  achievement-data:
+    driver: local
+    labels:
+      - "com.achievement-portfolio.data=true"
+  achievement-uploads:
+    driver: local
+    labels:
+      - "com.achievement-portfolio.uploads=true"
