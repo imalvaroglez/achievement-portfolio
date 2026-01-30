@@ -9,9 +9,7 @@
       "owner": "Mr. Mojo Risin",
       "description": "Build automated monitoring system for exchange rates, flight prices, and market trends",
       "nextSteps": [
-        "Set up remote GitHub repo for market-intelligence",
         "Create Notion database and configure DB ID in data/notion-db-ids.json",
-        "Configure real exchange rate API (currently mock data)",
         "Add Telegram bot integration for weekly reports"
       ],
       "blockers": [
@@ -19,7 +17,7 @@
       ],
       "startDate": "2026-01-30",
       "endDate": "2026-01-30",
-      "notes": "Complete with Notion integration. Origin changed from MEX to GDL per Álv's request. Features: daily flight tracking (6 routes from GDL), exchange rate monitoring, weekly reports, Notion persistence. Commits: 91614c3 (MVP), cdfbfc2 (Notion integration), 38cd58c (Change origin to GDL)."
+      "notes": "Complete with Notion integration + FX API. Origin changed from MEX to GDL per Álv's request. Remote repo created: github.com/at-tailor-made/market-intelligence. Features: daily flight tracking (6 routes from GDL), exchange rate monitoring, weekly reports, Notion persistence."
     },
     {
       "id": "achievement-portfolio",
