@@ -54,12 +54,56 @@ Every analysis includes:
 - **Why It Works:** Explain the opportunity found
 - **Trade-offs:** Be honest about compromises
 
+## Workflow Engine CLI
+
+The `scripts/workflow.py` automates RÁPIDO and PROFUNDO analyses end-to-end:
+
+```bash
+source ~/.venvs/flights/bin/activate
+python3 skills/tailor-made/scripts/workflow.py <mode> [options]
+```
+
+### RÁPIDO
+```bash
+python3 skills/tailor-made/scripts/workflow.py rapido \
+  --from MEX --to CUN --date 2026-03-15 --return-date 2026-03-20 \
+  --adults 2 --budget 30000 --currency MXN
+```
+
+### PROFUNDO
+```bash
+python3 skills/tailor-made/scripts/workflow.py profundo \
+  --from MEX --to CUN --date 2026-03-15 --return-date 2026-03-20 \
+  --adults 2 --budget 30000 --currency MXN \
+  --client "Pareja joven, primera vez en Cancún"
+```
+
+### With Notion auto-documentation
+Add `--notion` to auto-create entries in Operations + Proposals databases:
+```bash
+python3 skills/tailor-made/scripts/workflow.py rapido \
+  --from MEX --to CUN --date 2026-03-15 --return-date 2026-03-20 \
+  --adults 2 --notion
+```
+
+### Output modes
+- Default: Telegram-formatted text (ready to send to Mar)
+- `--json`: Full JSON with raw data, params, and Notion links
+
+### What it does
+1. Searches flights (Amadeus API)
+2. Searches hotels in destination city
+3. Formats results in Telegram-ready template (RÁPIDO or PROFUNDO)
+4. Includes budget analysis and recommendation
+5. Optionally creates Notion entries (Operations + Proposals)
+
 ## Notion Integration
-After analyses, create entries in:
-- Clients (if new)
-- Consultations
-- Analyses
-- Proposals (draft)
+
+Active Notion databases:
+- **Operations:** `2f7a81f6-c8ba-801b-bb52-dae3895517ee` — Analysis logs
+- **Proposals:** `2f7a81f6-c8ba-8026-b70b-fcf4e9e9549f` — Client proposals
+
+Requires `NOTION_API_KEY` env var (configured in gateway).
 
 ## Service Tiers
 - Express "City Escape" - $3,500 MXN

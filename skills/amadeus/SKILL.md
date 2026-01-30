@@ -2,90 +2,93 @@
 
 Search flights, hotels, and destinations using Amadeus GDS data. Designed for travel research and proposal preparation.
 
-## Capabilities
+## Unified CLI (Recommended)
 
-- **Flight Search**: Find flights by route, date, and passengers
-- **Airport Lookup**: Resolve city names to airport codes
-- **Hotel Search**: Find hotels by destination with availability
-- **Points of Interest**: Discover attractions, restaurants, landmarks
-
-## Usage
-
-### Flight Search
+The **`travel_research.py`** script is the single entry point for all travel operations:
 
 ```bash
-# Basic one-way search
-python scripts/flights/search_flights.py --from BCN --to JFK --date 2026-03-15
-
-# Round trip with options
-python scripts/flights/search_flights.py \
-  --from BCN --to JFK \
-  --date 2026-03-15 \
-  --return 2026-03-22 \
-  --passengers 2 \
-  --class business \
-  --currency EUR
-
-# Direct flights only
-python scripts/flights/search_flights.py --from MAD --to LHR --date 2026-04-01 --direct
+source ~/.venvs/flights/bin/activate
+python3 skills/amadeus/scripts/travel_research.py <command> [options]
 ```
 
-### Airport/City Lookup
+### Commands
 
+#### `flights` — Search flights
 ```bash
-# Find airport codes
-python scripts/flights/find_airports.py "Barcelona"
-python scripts/flights/find_airports.py "New York"
+python3 skills/amadeus/scripts/travel_research.py flights \
+  --from MEX --to CUN --date 2026-03-15
+python3 skills/amadeus/scripts/travel_research.py flights \
+  --from MEX --to BCN --date 2026-04-10 --return-date 2026-04-20 \
+  --trip round-trip --seat business --adults 2 --currency MXN
 ```
 
-### Hotel Search
-
+#### `hotels` — Search hotels
 ```bash
-# Find hotels in a city
-python scripts/hotels/search_hotels.py --city PAR --checkin 2026-03-15 --checkout 2026-03-20
-
-# With filters
-python scripts/hotels/search_hotels.py \
-  --city NYC \
-  --checkin 2026-03-15 \
-  --checkout 2026-03-20 \
-  --guests 2 \
-  --stars 4,5
+python3 skills/amadeus/scripts/travel_research.py hotels \
+  --city CUN --checkin 2026-03-15 --checkout 2026-03-20
+python3 skills/amadeus/scripts/travel_research.py hotels \
+  --city PAR --checkin 2026-04-01 --checkout 2026-04-08 --guests 2 --stars 4,5
 ```
 
-### Points of Interest
-
+#### `poi` — Points of interest
 ```bash
-# Find attractions near coordinates
-python scripts/destinations/points_of_interest.py --lat 48.8566 --lon 2.3522 --radius 2
-
-# Filter by category
-python scripts/destinations/points_of_interest.py --lat 40.7128 --lon -74.0060 --category RESTAURANT
+python3 skills/amadeus/scripts/travel_research.py poi \
+  --lat 21.1619 --lon -86.8515 --radius 5
+python3 skills/amadeus/scripts/travel_research.py poi \
+  --lat 48.8566 --lon 2.3522 --category RESTAURANT
 ```
 
-**Note:** POI API requires production credentials (not available in test environment)
+**Note:** POI requires production credentials.
+
+#### `airports` — Airport/city lookup
+```bash
+python3 skills/amadeus/scripts/travel_research.py airports --query "Cancun"
+python3 skills/amadeus/scripts/travel_research.py airports --query "New York"
+```
+
+#### `research` — Combined research (flights + hotels + optional Notion)
+```bash
+# Quick research
+python3 skills/amadeus/scripts/travel_research.py research \
+  --from MEX --to CUN --checkin 2026-03-15 --checkout 2026-03-20 --adults 2
+
+# With Notion proposal
+python3 skills/amadeus/scripts/travel_research.py research \
+  --from MEX --to CUN --checkin 2026-03-15 --checkout 2026-03-20 \
+  --adults 2 --notion
+```
 
 ## Configuration
 
-Required environment variables:
+Required environment variables (set in gateway config):
 - `AMADEUS_API_KEY`: Your Amadeus API key
 - `AMADEUS_API_SECRET`: Your Amadeus API secret
 - `AMADEUS_ENV`: Environment (`test` or `production`, default: `test`)
+- `NOTION_API_KEY`: Notion API key (for proposal generation)
 
 ### Price Analysis (Production Only)
 
 ```bash
 # Analyze prices for a route
-python scripts/flights/analyze_prices.py --from BCN --to JFK --date 2026-03-15
+python3 skills/amadeus/scripts/flights/analyze_prices.py --from BCN --to JFK --date 2026-03-15
 
 # Find cheapest travel dates
-python scripts/flights/find_cheapest_dates.py --from BCN --to JFK --date 2026-03-15 --span 30
+python3 skills/amadeus/scripts/flights/find_cheapest_dates.py --from BCN --to JFK --date 2026-03-15 --span 30
 
 # Find cheapest destinations from origin
-python scripts/flights/find_cheap_destinations.py --from BCN --max 20
+python3 skills/amadeus/scripts/flights/find_cheap_destinations.py --from BCN --max 20
 ```
 
 **Note:** Price analysis endpoints require production credentials (not available in test)
+
+## Legacy Individual Scripts
+
+The individual scripts still work but `travel_research.py` is preferred:
+- `scripts/flights/search_flights.py` — Flight search
+- `scripts/flights/find_airports.py` — Airport lookup
+- `scripts/hotels/search_hotels.py` / `list_hotels.py` — Hotel search
+- `scripts/destinations/points_of_interest.py` — POI search
+- `scripts/combined_research.py` — Combined research (legacy)
 
 ## Output Format
 
