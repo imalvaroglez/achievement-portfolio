@@ -1,24 +1,25 @@
 {
-  "lastUpdate": "2026-01-30T17:13:00Z",
+  "lastUpdate": "2026-01-30T17:54:00Z",
   "projects": [
     {
       "id": "market-intel-mvp",
       "name": "Market Intelligence MVP",
-      "status": "in-progress",
+      "status": "complete",
       "priority": "high",
       "owner": "Mr. Mojo Risin",
       "description": "Build automated monitoring system for exchange rates, flight prices, and market trends",
       "nextSteps": [
-        "Commit yesterday's market intel changes (DONE)",
-        "Build daily monitoring cron jobs",
-        "Configure Telegram alerts",
-        "Create weekly report generator"
+        "Set up remote GitHub repo for market-intelligence",
+        "Create Notion database and configure DB ID in data/notion-db-ids.json",
+        "Configure real exchange rate API (currently mock data)",
+        "Add Telegram bot integration for weekly reports"
       ],
       "blockers": [
-        "Waiting for route/currency list from Álv"
+        "Notion database ID needs to be configured in data/notion-db-ids.json"
       ],
       "startDate": "2026-01-30",
-      "notes": "Álv wants data flowing ASAP for go-to-market. Will start with reasonable defaults and adjust."
+      "endDate": "2026-01-30",
+      "notes": "Complete with Notion integration. Features: daily flight tracking (6 routes), exchange rate monitoring, weekly reports, Notion persistence. Commits: 91614c3 (MVP), cdfbfc2 (Notion integration)."
     },
     {
       "id": "achievement-portfolio",
@@ -52,11 +53,18 @@
   ],
   "ideas": [
     {
-      "title": "Flight price monitoring automation",
-      "value": "Proactive deal identification for Tailor Made clients",
-      "effort": "medium",
-      "priority": "high",
-      "notes": "Auto-monitor popular routes, alert on price drops, identify arbitrage opportunities"
+      "title": "Real exchange rate API integration",
+      "value": "Replace mock data with live FX rates for market-intelligence",
+      "effort": "low",
+      "priority": "medium",
+      "notes": "Use free API like exchangerate-api.com or similar"
+    },
+    {
+      "title": "Telegram bot for weekly reports",
+      "value": "Auto-send weekly intelligence reports to Tailor Made channel",
+      "effort": "low",
+      "priority": "medium",
+      "notes": "Integrate with existing Telegram infrastructure"
     },
     {
       "title": "Competitor intelligence dashboard",
