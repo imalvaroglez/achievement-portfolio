@@ -1,22 +1,53 @@
 {
-  "lastUpdate": "2026-01-29T15:37:00Z",
+  "lastUpdate": "2026-01-30T17:13:00Z",
   "projects": [
     {
-      "id": "mojo-proactivity-upgrade",
-      "name": "Mr. Mojo Risin Proactivity Enhancement",
+      "id": "market-intel-mvp",
+      "name": "Market Intelligence MVP",
       "status": "in-progress",
       "priority": "high",
       "owner": "Mr. Mojo Risin",
-      "description": "Transform from reactive assistant to proactive autonomous employee",
+      "description": "Build automated monitoring system for exchange rates, flight prices, and market trends",
       "nextSteps": [
-        "Finalize configuration file updates",
-        "Create initial memory structures",
-        "Test proactive behaviors",
-        "Deploy and monitor"
+        "Commit yesterday's market intel changes (DONE)",
+        "Build daily monitoring cron jobs",
+        "Configure Telegram alerts",
+        "Create weekly report generator"
+      ],
+      "blockers": [
+        "Waiting for route/currency list from Álv"
+      ],
+      "startDate": "2026-01-30",
+      "notes": "Álv wants data flowing ASAP for go-to-market. Will start with reasonable defaults and adjust."
+    },
+    {
+      "id": "achievement-portfolio",
+      "name": "Álv's Achievement Portfolio Website",
+      "status": "planning",
+      "priority": "medium",
+      "owner": "Mr. Mojo Risin",
+      "description": "iPhone-style portfolio website for Álv's 2024-2025 achievements",
+      "nextSteps": [
+        "Get achievement list from Álv",
+        "Set up Next.js + Tailwind project",
+        "Build feature sections with animations"
       ],
       "blockers": [],
+      "startDate": "2026-01-30",
+      "notes": "Promotion prep - top performer 2025"
+    },
+    {
+      "id": "mojo-proactivity-upgrade",
+      "name": "Mr. Mojo Risin Proactivity Enhancement",
+      "status": "complete",
+      "priority": "high",
+      "owner": "Mr. Mojo Risin",
+      "description": "Transform from reactive assistant to proactive autonomous employee",
+      "nextSteps": [],
+      "blockers": [],
       "startDate": "2026-01-29",
-      "notes": "Álv wants proactive behavior similar to clawdbot example - autonomous work, anticipate needs, build without waiting for commands"
+      "endDate": "2026-01-30",
+      "notes": "Complete. Now operating proactively - checking projects, committing work, building improvements without being asked."
     }
   ],
   "ideas": [

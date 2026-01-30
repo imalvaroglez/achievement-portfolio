@@ -107,62 +107,20 @@ Requires `NOTION_API_KEY` env var (configured in gateway).
 
 ## Market Intelligence
 
-Automated market tracking for Tailor Made business intelligence:
+**Moved to separate repo:** `/home/clawdbot/market-intelligence`
 
-### CLI Usage
+See the standalone Market Intelligence system for:
+- Daily flight price tracking for key routes
+- Exchange rate monitoring
+- Weekly market reports
+- Automated scheduling and trend analysis
+
+Run from the market-intelligence repo:
 ```bash
-source ~/.venvs/flights/bin/activate
-python3 skills/tailor-made/scripts/market_intel.py <command>
+cd /home/clawdbot/market-intelligence
+source venv/bin/activate
+python scripts/market_intel.py report --days 7 --format telegram
 ```
-
-**Commands:**
-- `track --type flights` — Track flight prices for key routes (MEX→CUN, MIA, JFK, LAX, MAD, CDG)
-- `track --type exchange` — Track MXN exchange rates (USD, EUR, GBP)
-- `report --days 7 --format telegram` — Generate weekly market report
-- `analyze --route MEX-CUN` — Analyze price history for specific route
-
-**Monitored Routes:**
-- MEX → CUN (Cancún) — Domestic leisure
-- MEX → MIA (Miami) — US East Coast
-- MEX → JFK (New York) — US East Coast
-- MEX → LAX (Los Angeles) — US West Coast
-- MEX → MAD (Madrid) — Europe
-- MEX → CDG (Paris) — Europe
-
-**Monitored Currencies:**
-- MXN/USD
-- MXN/EUR
-- MXN/GBP
-
-### Automated Scheduling
-**Cron jobs configured:**
-- Daily flight tracking: 14:00 UTC (~8am Mexico City)
-- Weekly report: Mondays 15:00 UTC (~9am Mexico City)
-
-**Data storage:** `data/market-intel/` (JSON files with timestamps)
-
-### Weekly Report Format
-```markdown
-📊 INFORME SEMANAL TAILOR MADE
-Periodo: 7 días
-
-✈️ Vuelos
-📉 Ciudad de México → Cancún
-   Actual: $48 USD | Min: $45 USD
-   Tendencia: -5.2%  (price drop = opportunity)
-
-💱 Tipo de Cambio
-📉 MXN-USD: 17.22 (-0.15)
-
-💡 Oportunidades
-• 🔥 OFERTA: MEX→CUN bajó 5.2% ($48 USD)
-• 💰 DÓLAR BARATO: MXN subió vs USD
-```
-
-### Scripts
-- `scripts/market_intel.py` — Main CLI tool
-- `data/market-intel/cron-daily-flights.sh` — Daily tracking cron script
-- `data/market-intel/cron-weekly-report.sh` — Weekly report cron script
 
 ## Service Tiers
 - Express "City Escape" - $3,500 MXN
