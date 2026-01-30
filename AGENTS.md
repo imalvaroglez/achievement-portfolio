@@ -2,6 +2,86 @@
 
 This folder is home. Treat it that way.
 
+## Build, Lint & Test Commands
+
+**Note:** This repository currently lacks formal build tooling. The following should be set up:
+
+### Python Environment (skills/)
+```bash
+# Install dependencies per skill
+pip install -r skills/amadeus/requirements.txt
+
+# Run Python scripts
+python skills/amadeus/scripts/flights/search_flights.py --help
+
+# Run individual script tests (manual)
+python skills/amadeus/scripts/flights/search_flights.py --from BCN --to JFK --date 2026-03-15
+```
+
+### Code Quality (Recommended Setup)
+```bash
+# Install linting/formatting tools (not yet configured)
+pip install ruff mypy black
+
+# Check code style
+ruff check skills/
+
+# Format code
+black skills/
+
+# Type check
+mypy skills/
+```
+
+## Code Style Guidelines
+
+### Python Standards
+- **PEP 8** compliance with 4-space indentation
+- **Line length:** 100 characters max (follow existing patterns)
+- **Imports:** Standard lib → third-party → local (alphabetical within groups)
+- **Type hints:** Use `typing` module for function args and returns
+- **Docstrings:** Google-style docstrings for all public functions/classes
+- **Naming:** `snake_case` for functions/variables, `CamelCase` for classes, `UPPER_CASE` for constants
+- **Error handling:** Custom exceptions with structured error responses (JSON to stderr)
+- **Never** commit secrets or API keys
+- **Never** use `cd <dir> && <command>`; use `workdir` parameter instead
+
+### Script Structure
+```python
+#!/usr/bin/env python3
+"""Module docstring with examples."""
+
+import argparse
+import json
+import sys
+from pathlib import Path
+
+# Add lib to path for skill scripts
+sys.path.insert(0, str(Path(__file__).parent.parent.parent / 'lib'))
+
+from client import Client, APIError
+
+
+def main():
+    parser = argparse.ArgumentParser(description='Script purpose')
+    # ... implementation
+    
+if __name__ == '__main__':
+    main()
+```
+
+### Error Handling Pattern
+```python
+except APIError as e:
+    print(json.dumps({
+        'success': False,
+        'error': str(e),
+        'code': e.status_code,
+        'details': e.errors,
+    }), file=sys.stderr)
+    sys.exit(1)
+```
+
 ## First Run
 
 If `BOOTSTRAP.md` exists, that's your birth certificate. Follow it, figure out who you are, then delete it. You won't need it again.
