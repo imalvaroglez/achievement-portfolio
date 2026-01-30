@@ -1,0 +1,117 @@
+Tracking flight prices...
+  Ciudad de México → Cancún...
+    Avg: $48.31 USD | Min: $45.18 USD
+  Ciudad de México → Miami...
+    Avg: $196.52 USD | Min: $116.03 USD
+  Ciudad de México → Nueva York...
+    Avg: $216.56 USD | Min: $199.59 USD
+  Ciudad de México → Los Angeles...
+    Avg: $176.78 USD | Min: $121.51 USD
+  Ciudad de México → Madrid...
+    Avg: $357.99 USD | Min: $346.57 USD
+  Ciudad de México → París...
+    Avg: $429.08 USD | Min: $399.37 USD
+[
+  {
+    "route": "MEX-CUN",
+    "name": "Ciudad de M\u00e9xico \u2192 Canc\u00fan",
+    "data": {
+      "timestamp": "2026-01-30T12:31:56.510006",
+      "prices": [
+        45.18,
+        45.18,
+        50.1,
+        50.1,
+        50.98
+      ],
+      "avg_price": 48.308,
+      "min_price": 45.18,
+      "max_price": 50.98
+    }
+  },
+  {
+    "route": "MEX-MIA",
+    "name": "Ciudad de M\u00e9xico \u2192 Miami",
+    "data": {
+      "timestamp": "2026-01-30T12:31:59.896971",
+      "prices": [
+        116.03,
+        197.92,
+        222.88,
+        222.88,
+        222.88
+      ],
+      "avg_price": 196.51799999999997,
+      "min_price": 116.03,
+      "max_price": 222.88
+    }
+  },
+  {
+    "route": "MEX-JFK",
+    "name": "Ciudad de M\u00e9xico \u2192 Nueva York",
+    "data": {
+      "timestamp": "2026-01-30T12:32:04.702254",
+      "prices": [
+        199.59,
+        220.8,
+        220.8,
+        220.8,
+        220.8
+      ],
+      "avg_price": 216.558,
+      "min_price": 199.59,
+      "max_price": 220.8
+    }
+  },
+  {
+    "route": "MEX-LAX",
+    "name": "Ciudad de M\u00e9xico \u2192 Los Angeles",
+    "data": {
+      "timestamp": "2026-01-30T12:32:10.701159",
+      "prices": [
+        121.51,
+        150.15,
+        197.92,
+        207.15,
+        207.15
+      ],
+      "avg_price": 176.776,
+      "min_price": 121.51,
+      "max_price": 207.15
+    }
+  },
+  {
+    "route": "MEX-MAD",
+    "name": "Ciudad de M\u00e9xico \u2192 Madrid",
+    "data": {
+      "timestamp": "2026-01-30T12:32:14.790969",
+      "prices": [
+        346.57,
+        346.57,
+        363.29,
+        363.29,
+        370.25
+      ],
+      "avg_price": 357.994,
+      "min_price": 346.57,
+      "max_price": 370.25
+    }
+  },
+  {
+    "route": "MEX-CDG",
+    "name": "Ciudad de M\u00e9xico \u2192 Par\u00eds",
+    "data": {
+      "timestamp": "2026-01-30T12:32:19.270624",
+      "prices": [
+        399.37,
+        399.37,
+        399.37,
+        399.37,
+        547.93
+      ],
+      "avg_price": 429.082,
+      "min_price": 399.37,
+      "max_price": 547.93
+    }
+  }
+]
